@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ author }}'s app</title>
+  </head>
+
+  <body>
+    <h2>Hello {{ user }}!</h2>
+     <form action="/enter_user" method="post">
+  <th> User: <input type="text" name="user"></input></th>
+  <input type="submit" value="signup"></input>
+</form>
+      <form action="/login_user" method="post">
+  <th> User: <input type="text" name="user"></input></th>
+  <input type="submit" value="login"></input>
+</form>
+  <form action="/submit_student" method="post">
+  <th> Student: <input type="text" name="student"></input></th>
+  <input type="submit" value="Insert"></input>
+</form>
+
+   <form action="/submit_quiz" method="post">
+  <th> Quiz: <input type="text" name="quiz"></input></th>
+  <input type="submit" value="Insert"></input>
+</form>
+
+
+   <form action="/submit_score" method="post">
+  <th> Score: <input type="text" name="score"></input></th>
+
+     <select name="q_id">  {%for i, j in quiz_info.items()%}
+       <option value="{{j}}"> {{i}} </option>
+
+    {%endfor%}</select>
+
+      <select name="s_id">  {%for i, j in student_info.items()%}
+       <option value="{{j}}"> {{i}} </option>
+
+    {%endfor%}</select>
+
+  <input type="submit" value="Submit"></input>
+</form>
+  </body>
+</html>
