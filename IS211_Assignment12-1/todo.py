@@ -8,7 +8,7 @@ file_handler = FileHandler("teacher_file.log")
 file_handler.setLevel(logging.INFO)
 app.logger.addHandler(file_handler)
 
-app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.secret_key = b'_5#y2M"F4Q8z\n\xec]/'
 
 app.debug = True
 
@@ -25,9 +25,14 @@ def hello_world():
     name = "teacher"
 
     if 'username' in session:
+        error = ""
         user = session['username']
+        if 'attempted_login' in session:
+            error = "That is not a registered user. Please signup first"
     else:
-        user = " "
+        session['username'] = ""
+        user = ""
+        error = ""
 
 
     quizzes_info = {}
@@ -48,7 +53,7 @@ def hello_world():
         for row in rows:
             students_info[row[1]] = row[0]
         print(students_info)
-    return render_template('form.html', author=author, name=name, quiz_info=quizzes_info, student_info=students_info, user=user)
+    return render_template('form.html', author=author, name=name, quiz_info=quizzes_info, student_info=students_info, user=user, error=error)
 
 @app.route('/enter_user', methods=['POST'])
 def signup():
@@ -65,6 +70,8 @@ def signup():
 
 @app.route('/login_user', methods=['POST'])
 def login():
+    session['attempted_login'] = True
+    session['username'] = ""
     user = request.form['user']
     Array = []
     Array.append(user)
@@ -96,7 +103,7 @@ def if_authorized():
     with db:
         cur = db.cursor()
         cur.execute(" INSERT into students (name) values(?);", Array)
-    print("The student added was '" + student + "'")
+    print("The student you added was '" + student + "'")
     db.commit()
     return redirect('/')
 

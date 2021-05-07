@@ -7,7 +7,6 @@ with con:
 
     cur = con.cursor()
 
-    # cur.execute(""" DROP TABLE songs;""")
     cur.execute(""" CREATE TABLE users (
                                           user_id integer PRIMARY KEY,
                                             name_authorized text NOT NULL
